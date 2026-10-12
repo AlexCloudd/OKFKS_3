@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление лейбла — VINYL{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 80px 20px;">
+        <h1 style="color: #ff6666; margin-bottom: 20px;">Вы уверены?</h1>
+        <p style="font-size: 1.1rem; margin-bottom: 40px;">
+            Вы действительно хотите удалить лейбл <strong>"{{ object.name }}"</strong>?
+        </p>
+        
+        <form method="post" style="display: inline-flex; gap: 20px; align-items: center;">
+            {% csrf_token %}
+            <button type="submit" style="background:#b30000; color:white; padding:14px 32px; border:none; border-radius:6px; font-size:1.05rem;">
+                Да, удалить
+            </button>
+            <a href="{% url 'productproject:label_list' %}" style="color:#aaa; font-size:1.05rem;">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

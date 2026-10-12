@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Лейблы — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .catalog-header {
+        text-align: center;
+        margin: 45px 0 60px 0;
+    }
+
+    .catalog-header h1 {
+        margin: 0 0 25px 0;
+        font-size: 2.4rem;
+    }
+
+        .card h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        color: #ffffff !important;     
+        font-weight: 600;
+    }
+
+    .add-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: #000000;
+        padding: 13px 34px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 1.05rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s;
+    }
+
+    .add-btn:hover {
+        background: #ddd;
+        transform: translateY(-3px);
+    }
+
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+        gap: 30px; 
+    }
+
+    .card { 
+        background: #1a1a1a; 
+        border-radius: 8px; 
+        overflow: hidden; 
+        text-align: center; 
+        padding: 20px 15px; 
+        transition: 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover { 
+        transform: translateY(-8px); 
+    }
+
+    .card img { 
+        width: 160px; 
+        height: 160px; 
+        object-fit: contain; 
+        border-radius: 12px; 
+        background: #111;
+        padding: 12px;
+        margin: 0 auto 15px; 
+    }
+
+    .card h3 {
+        margin: 10px 0 6px 0;
+        font-size: 1.25rem;
+    }
+
+    .btn-group {
+        margin-top: auto;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        padding-top: 15px;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 8px 18px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+
+    .btn-edit {
+        background: #333;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-delete {
+        background: #222;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-edit:hover, .btn-delete:hover {
+        background: #555;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="catalog-header">
+        <h1>Звукозаписывающие лейблы</h1>
+        {% if perms.productproject.add_label %}
+            <a href="{% url 'productproject:label_create' %}" class="add-btn">
+                + Добавить новый лейбл
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="grid">
+        {% for label in labels %}
+        <div class="card">
+            {% if label.logo %}
+                <img src="{{ label.logo.url }}" alt="{{ label.name }}">
+            {% endif %}
+            <h3>{{ label.name }}</h3>
+            <p style="color: #aaa; margin: 8px 0;">{{ label.country|default:"—" }}</p>
+            
+            <a href="{% url 'productproject:label_detail' label.pk %}" 
+               style="color:#aaa; display:block; margin:12px 0;">
+                Подробнее →
+            </a>
+            
+            {% if perms.productproject.change_label or perms.productproject.delete_label %}
+                <div class="btn-group">
+                    {% if perms.productproject.change_label %}
+                        <a href="{% url 'productproject:label_update' label.pk %}" class="btn-edit">Редактировать</a>
+                    {% endif %}
+                    {% if perms.productproject.delete_label %}
+                        <a href="{% url 'productproject:label_delete' label.pk %}" class="btn-delete">Удалить</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p style="grid-column: 1 / -1; text-align: center; padding: 80px; color: #777; font-size: 1.1rem;">
+                Пока нет лейблов
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

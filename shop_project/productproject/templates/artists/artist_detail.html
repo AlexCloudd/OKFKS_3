@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ artist.name }} — VINYL{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if artist.photo %}
+            <div class="image">
+                <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
+            </div>
+        {% endif %}
+        
+        <h1>{{ artist.name }}</h1>
+        <p>{{ artist.description|linebreaks }}</p>
+        <p><strong>Страна:</strong> {{ artist.country|default:"—" }}</p>
+    </div>
+{% endblock %}

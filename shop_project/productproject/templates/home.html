@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}VINYL STORE{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .hero {
+        text-align: center;
+        padding: 120px 20px 100px;
+        background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+        border-radius: 12px;
+        margin: 40px auto;
+        max-width: 1100px;
+    }
+
+    .hero h1 {
+        font-size: 3.8rem;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, #fff, #ccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        font-size: 1.35rem;
+        color: #aaa;
+        max-width: 600px;
+        margin: 0 auto 40px;
+    }
+
+    .btn {
+        display: inline-block;
+        background: #ffffff;
+        color: #000000;
+        padding: 16px 42px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 1.15rem;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s;
+    }
+
+    .btn:hover {
+        background: #ddd;
+        transform: translateY(-4px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="hero">
+        <h1>VINYL STORE</h1>
+        <p>Настоящий винил для настоящих ценителей</p>
+        <a href="{% url 'productproject:plate_list' %}" class="btn">Открыть каталог</a>
+    </div>
+{% endblock %}

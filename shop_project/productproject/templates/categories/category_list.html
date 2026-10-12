@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Категории — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+        gap: 25px; 
+        margin-top: 30px;
+    }
+
+    .card { 
+        background: #1a1a1a; 
+        border-radius: 8px; 
+        padding: 22px; 
+        transition: 0.3s;
+    }
+
+    .card:hover { 
+        transform: translateY(-8px); 
+    }
+
+    .card h3 {
+        margin-top: 0;
+        font-size: 1.35rem;
+    }
+
+    .btn-group {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 8px 18px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+
+    .btn-edit {
+        background: #333;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-delete {
+        background: #222;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-edit:hover, .btn-delete:hover {
+        background: #555;
+        color: #fff;
+    }
+
+    .add-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: #000000;
+        padding: 12px 32px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin: 25px auto 35px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+    }
+
+    .add-btn:hover {
+        background: #ddd;
+        transform: translateY(-2px);
+    }
+
+    .card h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        color: #ffffff !important;     
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>Категории товаров</h1>
+
+    {% if perms.productproject.add_category %}
+        <a href="{% url 'productproject:category_create' %}" class="add-btn">
+            + Добавить новую категорию
+        </a>
+    {% endif %}
+
+    <div class="grid">
+        {% for category in categories %}
+        <div class="card">
+            <h3>{{ category.name }}</h3>
+            <p style="color: #aaa; line-height: 1.5;">
+                {{ category.description|truncatewords:25|default:"Нет описания" }}
+            </p>
+            
+            <a href="{% url 'productproject:category_detail' category.pk %}" 
+               style="color:#aaa; display:block; margin:12px 0;">
+                Подробнее →
+            </a>
+            
+            {% if perms.productproject.change_category or perms.productproject.delete_category %}
+                <div class="btn-group">
+                    {% if perms.productproject.change_category %}
+                        <a href="{% url 'productproject:category_update' category.pk %}" class="btn-edit">Редактировать</a>
+                    {% endif %}
+                    {% if perms.productproject.delete_category %}
+                        <a href="{% url 'productproject:category_delete' category.pk %}" class="btn-delete">Удалить</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p style="grid-column: 1 / -1; text-align: center; padding: 80px; color: #777; font-size: 1.1rem;">
+                Пока нет категорий
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

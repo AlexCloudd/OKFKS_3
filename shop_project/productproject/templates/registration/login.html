@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .auth-form {
+        background: #1a1a1a;
+        padding: 40px;
+        border-radius: 8px;
+        max-width: 480px;
+        margin: 60px auto;
+    }
+
+    .auth-form h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.2rem;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 6px;
+        color: #ccc;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        background: #0f0f0f;
+        color: #e0e0e0;
+        border: 1px solid #444;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        background: #ffffff;
+        color: #000;
+        padding: 14px;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-top: 25px;
+        font-size: 1.1rem;
+    }
+
+    button:hover {
+        background: #ddd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="auth-form">
+        <h1>Вход в аккаунт</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Войти</button>
+        </form>
+        <p style="text-align: center; margin-top: 20px;">
+            Нет аккаунта? <a href="{% url 'productproject:register' %}" style="color:#aaa;">Зарегистрироваться</a>
+        </p>
+    </div>
+{% endblock %}

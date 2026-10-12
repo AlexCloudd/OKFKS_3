@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Исполнители — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+        gap: 25px; 
+        margin-top: 20px;
+    }
+
+    .card { 
+        background: #1a1a1a; 
+        border-radius: 8px; 
+        overflow: hidden; 
+        text-align: center; 
+        padding: 15px; 
+        transition: 0.3s;
+    }
+
+    .card:hover { 
+        transform: translateY(-8px); 
+    }
+
+    .card img { 
+        width: 180px; 
+        height: 180px; 
+        object-fit: cover; 
+        border-radius: 50%; 
+        margin-bottom: 15px; 
+    }
+
+    .btn-group {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 7px 14px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .btn-edit {
+        background: #333;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-delete {
+        background: #222;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    .btn-edit:hover, .btn-delete:hover {
+        background: #555;
+        color: #fff;
+    }
+
+    /* Кнопка "Добавить" */
+    .add-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: #000000;
+        padding: 12px 32px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        margin: 20px auto 35px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+    }
+
+    .add-btn:hover {
+        background: #ddd;
+        transform: translateY(-2px);
+    }
+
+    .card h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        color: #ffffff !important;     
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>Исполнители</h1>
+
+    {% if perms.productproject.add_artist %}
+        <a href="{% url 'productproject:artist_create' %}" class="add-btn">
+            + Добавить нового исполнителя
+        </a>
+    {% endif %}
+
+    <div class="grid">
+        {% for artist in artists %}
+        <div class="card">
+            {% if artist.photo %}
+                <img src="{{ artist.photo.url }}" alt="{{ artist.name }}">
+            {% endif %}
+            <h3>{{ artist.name }}</h3>
+            <p style="color: #aaa; margin: 8px 0;">{{ artist.country|default:"—" }}</p>
+            
+            <a href="{% url 'productproject:artist_detail' artist.pk %}" style="color:#aaa; display:block; margin:8px 0;">Подробнее →</a>
+            
+            {% if perms.productproject.change_artist or perms.productproject.delete_artist %}
+                <div class="btn-group">
+                    {% if perms.productproject.change_artist %}
+                        <a href="{% url 'productproject:artist_update' artist.pk %}" class="btn-edit">Редактировать</a>
+                    {% endif %}
+                    {% if perms.productproject.delete_artist %}
+                        <a href="{% url 'productproject:artist_delete' artist.pk %}" class="btn-delete">Удалить</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p style="grid-column: 1 / -1; text-align: center; padding: 60px; color: #777;">
+                Пока нет исполнителей
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

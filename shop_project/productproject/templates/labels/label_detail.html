@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ label.name }} — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .logo {
+        margin: 0 auto 30px;
+        max-width: 220px;
+    }
+    .logo img {
+        width: 100%;
+        height: 220px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #111;
+        padding: 15px;
+    }
+    .description {
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 8px;
+        line-height: 1.7;
+        color: #ddd;
+        margin: 35px 0;
+        text-align: left;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .card-body h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        color: #ffffff !important;     
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if label.logo %}
+            <div class="logo">
+                <img src="{{ label.logo.url }}" alt="{{ label.name }}">
+            </div>
+        {% endif %}
+        
+        <h1>{{ label.name }}</h1>
+        
+        {% if label.country %}
+            <p style="color: #aaa; font-size: 1.1rem; margin: 10px 0 25px;">
+                <strong>Страна:</strong> {{ label.country }}
+            </p>
+        {% endif %}
+
+        {% if label.description %}
+            <div class="description">
+                {{ label.description|linebreaks }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

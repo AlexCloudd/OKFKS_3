@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Корзина — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .cart-container {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .cart-item {
+        background: #1a1a1a;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .cart-item img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .cart-info {
+        flex-grow: 1;
+    }
+
+    .cart-total {
+        background: #1a1a1a;
+        padding: 25px;
+        border-radius: 8px;
+        text-align: right;
+        font-size: 1.4rem;
+        margin-top: 30px;
+    }
+
+    .btn-order {
+        background: #ffffff;
+        color: #000;
+        padding: 14px 40px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 6px;
+    }
+
+    .btn-order:hover {
+        background: #ddd;
+    }
+
+    .remove-btn {
+        color: #ff6666;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="cart-container">
+        <h1 style="text-align: center; margin-bottom: 40px;">Ваша корзина</h1>
+
+        {% if cart|length > 0 %}
+            {% for item in cart %}
+            <div class="cart-item">
+                {% if item.plate.photo %}
+                    <img src="{{ item.plate.photo.url }}" alt="{{ item.plate.name }}">
+                {% endif %}
+                
+                <div class="cart-info">
+                    <h3>{{ item.plate.name }}</h3>
+                    <p style="color: #aaa;">{{ item.plate.price }} ₽ × {{ item.quantity }}</p>
+                </div>
+                
+                <div style="text-align: right;">
+                    <p style="font-size: 1.3rem; font-weight: bold;">{{ item.total_price|floatformat:2 }} ₽</p>
+                    <a href="{% url 'productproject:cart_remove' item.plate.id %}" class="remove-btn">Удалить</a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="cart-total">
+                <strong>Итого: {{ cart.get_total_price|floatformat:2 }} ₽</strong><br><br>
+                <a href="{% url 'productproject:order_create' %}" class="btn-order">Оформить заказ</a>
+            </div>
+
+        {% else %}
+            <div style="text-align: center; padding: 100px 20px;">
+                <h2>Корзина пуста</h2>
+                <p style="color: #888; font-size: 1.3rem; margin: 20px 0;">Добавьте пластинки из каталога</p>
+                <a href="{% url 'productproject:plate_list' %}" class="btn" style="background:#fff; color:#000; padding:15px 40px;">
+                    Перейти в каталог
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

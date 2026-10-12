@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}О компании — VINYL{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .about-container {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 40px 30px;
+        background: #1a1a1a;
+        border-radius: 12px;
+        line-height: 1.75;
+    }
+
+    .about-container h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+    }
+
+    .about-container p {
+        font-size: 1.08rem;
+        color: #ddd;
+        margin-bottom: 22px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="about-container">
+        <h1>О нас</h1>
+        <p>Мы — специализированный магазин виниловых пластинок. Наша цель — предоставлять коллекционерам и меломанам качественные издания в отличном состоянии.</p>
+        <p>Каждая пластинка проверяется перед продажей. Мы ценим звучание и эстетику винила.</p>
+        <p>В нашем ассортименте вы найдёте как классические рок-альбомы, так и современные джазовые записи, редкие коллекционные издания и новинки.</p>
+        <p>Доставка осуществляется по всей стране. Мы гарантируем бережную упаковку и быструю обработку заказов.</p>
+    </div>
+{% endblock %}
